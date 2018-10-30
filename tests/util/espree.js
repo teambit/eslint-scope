@@ -25,13 +25,16 @@
 
 const espree = require("espree");
 
-module.exports = function(code, sourceType) {
+module.exports = function(code, sourceType, ecmaFeatures) {
     sourceType = sourceType || "module";
+
+    ecmaFeatures = ecmaFeatures || {};
 
     return espree.parse(code, {
         range: true,
         ecmaVersion: 7,
-        sourceType
+        sourceType,
+        ecmaFeatures
     });
 };
 
