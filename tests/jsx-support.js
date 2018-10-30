@@ -28,8 +28,8 @@ const expect = require("chai").expect;
 const espree = require("./util/espree");
 const analyze = require("../lib").analyze;
 
-describe("catch", () => {
-    it("creates scope", () => {
+describe("jsx support", () => {
+    it("support jsx syntax in scope analysis", () => {
         const ast = espree(
             "import ActionArea from './index'; const n=1; <ActionArea></ActionArea>", "module", {
                 jsx: true,
