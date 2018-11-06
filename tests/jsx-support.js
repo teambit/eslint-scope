@@ -59,7 +59,7 @@ describe("jsx support", () => {
         expect(scope.variables[1].name).to.be.equal("n");
         expect(scope.references).to.have.length(2);
     });
-    it("support jsx syntax in scope analysis", () => {
+    it("support jsx syntax in scope analysis - nesting jsx", () => {
         const ast = espree(
             "import { ActionArea, Button } from './index'; const n=1; <ActionArea><Button></Button></ActionArea>", "module", {
                 jsx: true,
