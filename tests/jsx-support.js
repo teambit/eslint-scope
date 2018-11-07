@@ -90,6 +90,37 @@ describe("jsx support", () => {
         expect(scope.variables[2].name).to.be.equal("n");
         expect(scope.references).to.have.length(3);
     });
+    it("support jsx syntax in scope analysis - nesting jsx with same component twice", () => {
+        const ast = espree(
+            "import { ActionArea, Button } from './index'; const n=1; <ActionArea><Button></Button><Button></Button></ActionArea>", "module", {
+                jsx: true,
+                globalReturn: true,
+                impliedStrict: true
+            }
+        );
+
+        const scopeManager = analyze(ast, {
+            ecmaVersion: 2018,
+            ecmaFeatures: { jsx: true },
+            sourceType: "module"
+        });
+
+        expect(scopeManager.scopes).to.have.length(2);
+        const globalScope = scopeManager.scopes[0];
+
+        expect(globalScope.type).to.be.equal("global");
+        expect(globalScope.variables).to.have.length(0);
+        expect(globalScope.references).to.have.length(0);
+
+        const scope = scopeManager.scopes[1];
+
+        expect(scope.type).to.be.equal("module");
+        expect(scope.variables).to.have.length(3);
+        expect(scope.variables[0].name).to.be.equal("ActionArea");
+        expect(scope.variables[1].name).to.be.equal("Button");
+        expect(scope.variables[2].name).to.be.equal("n");
+        expect(scope.references).to.have.length(4);
+    });
 });
 
 // vim: set sw=4 ts=4 et tw=80 :
